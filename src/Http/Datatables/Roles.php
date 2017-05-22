@@ -50,6 +50,7 @@ class Roles extends DataTable
         $acl           = app('antares.acl')->make('antares/acl');
         $canEditRole   = $acl->can('edit-role');
         $canDeleteRole = $acl->can('delete-role');
+
         return $this->prepare()
                         ->addColumn('action', $this->getActionsColumn($roleId, $canEditRole, $canDeleteRole))
                         ->editColumn('description', function ($model) {
@@ -89,6 +90,7 @@ class Roles extends DataTable
     {
 
         return function ($row) use($roleId, $canEditRole, $canDeleteRole) {
+
             $btns = [];
             $html = app('html');
             if ($canEditRole) {

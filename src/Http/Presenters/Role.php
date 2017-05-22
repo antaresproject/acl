@@ -20,7 +20,7 @@
 
 namespace Antares\Acl\Http\Presenters;
 
-use Antares\Foundation\Http\Datatables\Roles as Datatables;
+use Antares\Acl\Http\Datatables\Roles as Datatables;
 use Antares\Acl\Http\Form\Role as RoleForm;
 use Antares\Acl\Http\Breadcrumb\Breadcrumb;
 use Antares\Acl\Contracts\ModulesAdapter;

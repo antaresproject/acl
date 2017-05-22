@@ -32,7 +32,7 @@ class StaffPane extends LeftPane
      */
     public function compose($name = null, $options = array())
     {
-        $menu                 = app('antares.widget')->make('menu.control.staff.pane');
+        $menu                 = app('antares.widget')->make('menu.acl.staff.pane');
         $acl                  = app('antares.acl')->make('antares/acl');
         $canAdministratorList = $acl->can('admin-list');
 
@@ -54,9 +54,7 @@ class StaffPane extends LeftPane
                     ->icon('zmdi-accounts-list')
                     ->active(!is_null(from_route('user')) or request()->segment(4) === 'users' or request()->segment(3) === 'users');
         }
-
-
-        $pane = app()->make('antares.widget')->make('pane.left');
+        $pane = app('antares.widget')->make('pane.left');
         $pane->add('control')->content(view('antares/acl::partial._staff_pane'));
     }
 
