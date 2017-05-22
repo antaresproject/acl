@@ -11,10 +11,7 @@
 
 ![acl](docs/img/acl.PNG)
 
-Acl is a lightweight role-based permissions module for Antares. It is designed to manage user access to resources located in different sections of the application. It sets up permissions based on module rules. It provides  NIST Level 2 Hierarchical Role Based Access Control (RBAC). It also provides an interface for administator to manage user roles (ACL configuration).
-
-It is recommended to link all the custom modules to Control (ACL) so configuration of the access will be consistent and in one section on the UI level.
-   
+Acl is a lightweight role-based permissions module for Antares. It is designed to manage user access to resources located in different sections of the application. It sets up permissions based on module rules. It provides  NIST Level 2 Hierarchical Role Based Access Control (RBAC). It also provides an interface for administator to manage user roles (ACL configuration).   
 
 ## Documentation
 
