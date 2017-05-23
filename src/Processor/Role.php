@@ -22,11 +22,14 @@ namespace Antares\Acl\Processor;
 
 use Antares\Acl\Http\Presenters\Role as RolePresenter;
 use Antares\Contracts\Foundation\Foundation;
+use Antares\Acl\Contracts\ModulesAdapter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Antares\Model\Role as Eloquent;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+use Antares\Model\Action;
 use Antares\Support\Str;
 use Exception;
 
@@ -280,8 +283,7 @@ class Role extends Processor
             'open'    => true,
             'checked' => false,
         ];
-        $modules   = app(\Antares\Acl\Contracts\ModulesAdapter::class)->modules();
-
+        $modules   = app(ModulesAdapter::class)->modules();
         foreach ($modules as $module) {
             $item        = [
                 'saveName'      => array_get($module, 'full_name', '---'),
@@ -299,26 +301,62 @@ class Role extends Processor
             }
             $children = [];
             $checked  = true;
+            $keys     = array_keys($actions);
 
-            foreach ($actions as $key => $action) {
-                $checked    = $instances[$module['namespace']]->check($eloquent->name, $action);
+            $actionsWithoutCategories = Action::query()->whereIn('id', $keys)->whereNull('category_id')->get();
+
+            foreach ($actionsWithoutCategories as $action) {
+                $checked    = $instances[$module['namespace']]->check($eloquent->name, $action->name);
+                $key        = array_search($action->name, $actions);
                 $children[] = [
                     'saveName'      => "acl[{$id}][{$key}]",
-                    'name'          => Str::humanize($action),
+                    'name'          => Str::humanize($action->name),
                     'indeterminate' => false,
                     'checked'       => $checked,
-                    'value'         => $action
+                    'value'         => $action->name,
+                    'description'   => $action->description
                 ];
                 if (!$checked) {
                     $checked = false;
                 }
             }
+            $actionsWithCategories = \Antares\Model\ActionCategories::query()->with(['actions' => function($query) use($keys) {
+                            $query->whereIn('id', $keys);
+                        }])->get();
+
+            foreach ($actionsWithCategories as $category) {
+                if ($category->actions->isEmpty()) {
+                    continue;
+                }
+                $subchildren = [];
+                foreach ($category->actions as $action) {
+                    $checked       = $instances[$module['namespace']]->check($eloquent->name, $action->name);
+                    $key           = array_search($action->name, $actions);
+                    $subchildren[] = [
+                        'saveName'      => "acl[{$id}][{$key}]",
+                        'name'          => Str::humanize($action->name),
+                        'indeterminate' => false,
+                        'checked'       => $checked,
+                        'value'         => $action->name,
+                        'description'   => $action->description
+                    ];
+                }
+                $children[] = [
+                    'name'          => $category->name,
+                    'saveName'      => "acl_category_" . $category->id,
+                    'indeterminate' => false,
+                    'checked'       => true,
+                    'children'      => $subchildren,
+                    'open'          => true
+                ];
+            }
+
             $item['checked'] = $checked;
 
             $item['children']     = $children;
             $return['children'][] = $item;
         }
-        return new \Illuminate\Http\JsonResponse(['tree' => $return]);
+        return new JsonResponse(['tree' => $return]);
     }
 
 }

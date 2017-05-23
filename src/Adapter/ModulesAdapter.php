@@ -21,27 +21,9 @@
 namespace Antares\Acl\Adapter;
 
 use Antares\Acl\Contracts\ModulesAdapter as ModulesAdapterContract;
-use Illuminate\Container\Container;
 
 class ModulesAdapter implements ModulesAdapterContract
 {
-
-    /**
-     * application instance
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * constructing
-     * 
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * fetch modules list
@@ -51,17 +33,18 @@ class ModulesAdapter implements ModulesAdapterContract
     public function modules()
     {
 
-        $memory        = $this->container->make('antares.memory');
+        $memory        = app('antares.memory');
         $configuration = $memory->make('component');
         $extensions    = $configuration->get('extensions.active');
         $coreActions   = $configuration->get('acl_antares.actions');
 
         $data = [
             [
-                'name'      => 'antares',
-                'namespace' => 'antares',
-                'full_name' => 'Core Platform',
-                'actions'   => $coreActions
+                'name'        => 'antares',
+                'namespace'   => 'antares',
+                'full_name'   => 'Core Platform',
+                'description' => 'Application engine',
+                'actions'     => $coreActions
             ]
         ];
 
@@ -72,8 +55,7 @@ class ModulesAdapter implements ModulesAdapterContract
             $data[]  = array_merge([
                 'name'        => $name,
                 'full_name'   => $named->getFriendlyName(),
-                'description' => $named->getPackage()->getDescription()
-                    ], [
+                'description' => strip_tags($named->getPackage()->getDescription())], [
                 'actions'   => $actions,
                 'namespace' => "antares/{$name}"
             ]);
