@@ -26,57 +26,31 @@ class ControlPane extends LeftPane
 {
 
     /**
-     * @var ModulesPane 
-     */
-    private static $oInstance = false;
-
-    /**
-     * menu handler instance
-     *
-     * @var \Menu\MenuHandler
-     */
-    private static $menuInstance = false;
-
-    /**
-     * @return ModulesPane
-     */
-    public static function getInstance()
-    {
-        if (self::$oInstance == false) {
-            self::$oInstance = new self();
-        }
-        return self::$oInstance;
-    }
-
-    /**
      * Handle pane for dashboard page.
      *
      * @return void
      */
     public function compose($name = null, $options = array())
     {
-        if (!self::$menuInstance) {
 
-            $menu = app('antares.widget')->make('menu.control.pane');
-            $auth = app('auth');
+        $menu = app('antares.widget')->make('menu.control.pane');
+        $auth = app('auth');
 
-            $acl                  = app('antares.acl')->make('antares/acl');
-            $canAdministratorList = $auth->is('super-administrator') && $acl->can('admin-list');
-            $canRoleList          = $acl->can('roles-list');
-            if (!$canAdministratorList and ! $canRoleList) {
-                return;
-            }
-
-            $menu->add('general-settings')
-                    ->link(handles('antares::settings/index'))
-                    ->title(trans('System'))
-                    ->icon('zmdi-settings');
-
-
-            self::$menuInstance = $menu;
-            $pane               = app()->make('antares.widget')->make('pane.left');
-            $pane->add('control')->content(view('antares/acl::partial._control_pane'));
+        $acl                  = app('antares.acl')->make('antares/acl');
+        $canAdministratorList = $auth->is('super-administrator') && $acl->can('admin-list');
+        $canRoleList          = $acl->can('roles-list');
+        if (!$canAdministratorList and ! $canRoleList) {
+            return;
         }
+
+        $menu->add('general-settings')
+                ->link(handles('antares::settings/index'))
+                ->title(trans('System'))
+                ->icon('zmdi-settings');
+
+
+        $pane = app()->make('antares.widget')->make('pane.left');
+        $pane->add('control')->content(view('antares/acl::partial._control_pane'));
     }
 
 }

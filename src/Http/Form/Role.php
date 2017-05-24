@@ -47,7 +47,7 @@ class Role extends FormBuilder
     {
         $grid = app(Grid::class);
         $grid->name('role');
-        $grid->resourced('antares::acl/roles', $model);
+        $grid->resourced('antares::acl/index/roles', $model);
         $grid->hidden('id');
 
         $grid->fieldset(function (Fieldset $fieldset) {

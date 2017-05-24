@@ -206,11 +206,11 @@ class Administrators extends DataTable
             $user               = user();
 
             if ($canUpdateUser) {
-                $url = ($user->id === $row->id) ? 'antares/foundation::/account' : "antares::acl/users/{$row->id}/edit";
+                $url = ($user->id === $row->id) ? 'antares/foundation::/account' : "antares::acl/index/users/{$row->id}/edit";
                 $this->addTableAction('edit', $row, $html->link(handles($url), trans('antares/foundation::label.edit'), ['data-icon' => 'edit']));
             }
             if (!is_null($user) && $user->id !== $row->id and $canDeleteUser) {
-                $this->addTableAction('delete', $row, $html->create('li', $html->link(handles("antares::acl/users/{$row->id}/delete", ['csrf' => true]), trans('antares/foundation::label.delete'), [
+                $this->addTableAction('delete', $row, $html->create('li', $html->link(handles("antares::acl/index/users/{$row->id}/delete", ['csrf' => true]), trans('antares/foundation::label.delete'), [
                                     'class'            => 'triggerable confirm',
                                     'data-icon'        => 'delete',
                                     'data-title'       => trans("antares/acl::messages.users.delete.are_you_sure"),

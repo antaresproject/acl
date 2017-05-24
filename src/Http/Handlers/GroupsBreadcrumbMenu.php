@@ -69,7 +69,7 @@ class GroupsBreadcrumbMenu extends MenuHandler
                     ->add('role-add', '^:roles')
                     ->title('Add Group')
                     ->icon('zmdi-plus-circle-o')
-                    ->link(handles('antares::acl/roles/create'));
+                    ->link(handles('antares::acl/index/roles/create'));
         }
     }
 

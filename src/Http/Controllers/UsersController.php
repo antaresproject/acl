@@ -212,7 +212,7 @@ class UsersController extends AdminController implements UserCreator, UserRemove
      */
     public function createUserFailedValidation($errors)
     {
-        return $this->redirectWithErrors(handles('antares::acl/users/create'), $errors);
+        return $this->redirectWithErrors(handles('antares::acl/index/users/create'), $errors);
     }
 
     /**
@@ -250,7 +250,7 @@ class UsersController extends AdminController implements UserCreator, UserRemove
      */
     public function updateUserFailedValidation($errors, $id)
     {
-        return $this->redirectWithErrors(handles("antares::acl/users/{$id}/edit"), $errors);
+        return $this->redirectWithErrors(handles("antares::acl/index/users/{$id}/edit"), $errors);
     }
 
     /**

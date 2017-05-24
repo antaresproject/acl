@@ -91,7 +91,7 @@ class User extends Presenter
         $this->breadcrumb->onUserCreateOrEdit($model);
         return $this->form->of('antares.users', function (FormGrid $form) use ($model) {
                     $form->name('user.form');
-                    $form->resource($this, 'antares::acl/users', $model);
+                    $form->resource($this, 'antares::acl/index/users', $model);
                     $form->hidden('id');
                     $form->fieldset('User fields', function (Fieldset $fieldset) use($model) {
                         $fieldset->control('input:text', 'email')

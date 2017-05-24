@@ -25,9 +25,9 @@ $router->group(['prefix' => 'acl'], function (Router $router) {
     $router->post('acl', 'AuthorizationController@update');
 
     $router->match(['GET', 'POST'], 'index/roles', 'RolesController@index');
-    $router->resource('roles', 'RolesController');
-    $router->match(['GET', 'HEAD', 'DELETE'], 'roles/{roles}/delete', 'RolesController@delete');
-    $router->match(['GET', 'HEAD', 'DELETE'], 'roles/{roles}/acl', 'RolesController@acl');
+    $router->resource('index/roles', 'RolesController');
+    $router->match(['GET', 'HEAD', 'DELETE'], 'index/roles/{roles}/delete', 'RolesController@delete');
+    $router->match(['GET', 'HEAD', 'DELETE'], 'index/roles/{roles}/acl', 'RolesController@acl');
     $router->get('acl/{id}', 'RolesController@acl');
     $router->get('tree/{id}', 'RolesController@tree');
 
@@ -35,7 +35,7 @@ $router->group(['prefix' => 'acl'], function (Router $router) {
      * users
      */
     $router->match(['GET', 'POST'], 'index/users', 'UsersController@index');
-    $router->resource('users', 'UsersController');
+    $router->resource('index/users', 'UsersController');
 
 
 

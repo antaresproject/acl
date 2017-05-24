@@ -244,7 +244,7 @@ class RolesController extends AdminController implements RolesContract
      */
     public function updateValidationFailed($messages, $id)
     {
-        return $this->redirectWithErrors(handles("antares::acl/roles/{$id}/edit"), $messages);
+        return $this->redirectWithErrors(handles("antares::acl/index/roles/{$id}/edit"), $messages);
     }
 
     /**

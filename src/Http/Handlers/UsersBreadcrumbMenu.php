@@ -33,7 +33,7 @@ class UsersBreadcrumbMenu extends MenuHandler
     protected $menu = [
         'id'    => 'users',
         'title' => 'Users',
-        'link'  => 'antares::acl/users',
+        'link'  => 'antares::acl/index/users',
         'icon'  => null,
         'boot'  => [
             'group' => 'menu.top.users',
@@ -69,7 +69,7 @@ class UsersBreadcrumbMenu extends MenuHandler
                     ->add('user-add', '^:users')
                     ->title('Add User')
                     ->icon('zmdi-plus-circle-o')
-                    ->link(handles('antares::acl/users/create'));
+                    ->link(handles('antares::acl/index/users/create'));
         }
     }
 

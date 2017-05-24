@@ -94,12 +94,12 @@ class Roles extends DataTable
             $btns = [];
             $html = app('html');
             if ($canEditRole) {
-                array_push($btns, $html->create('li', $html->link(handles("antares::acl/roles/{$row->id}/edit"), trans('antares/acl::title.edit_details'), ['data-icon' => 'edit'])));
-                array_push($btns, $html->create('li', $html->link(handles("antares::acl/roles/{$row->id}/acl"), trans('antares/acl::title.acl_rules'), ['data-icon' => 'accounts-alt'])));
+                array_push($btns, $html->create('li', $html->link(handles("antares::acl/index/roles/{$row->id}/edit"), trans('antares/acl::title.edit_details'), ['data-icon' => 'edit'])));
+                array_push($btns, $html->create('li', $html->link(handles("antares::acl/index/roles/{$row->id}/acl"), trans('antares/acl::title.acl_rules'), ['data-icon' => 'accounts-alt'])));
             }
             if ($row->id !== $roleId and $canDeleteRole) {
 
-                $url = handles("antares::acl/roles/{$row->id}/delete", ['csrf' => true]);
+                $url = handles("antares::acl/index/roles/{$row->id}/delete", ['csrf' => true]);
 
                 $class           = 'triggerable confirm';
                 $dataTitle       = trans('Are you sure?');
