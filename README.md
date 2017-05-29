@@ -9,9 +9,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/antaresproject/project.svg)](https://github.com/antaresproject/project/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/antaresproject/project/master/LICENSE)
 
-![acl](docs/img/acl.PNG)
-
 Acl is a lightweight role-based permissions module for Antares. It is designed to manage user access to resources located in different sections of the application. It sets up permissions based on module rules. It provides  NIST Level 2 Hierarchical Role Based Access Control (RBAC). It also provides an interface for administator to manage user roles (ACL configuration).   
+
+![acl](docs/img/acl.PNG)
 
 ## Documentation
 
