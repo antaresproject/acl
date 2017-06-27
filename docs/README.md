@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/antaresproject/acl.svg)](https://github.com/antaresproject/acl/issues)
 [![GitHub forks](https://img.shields.io/github/forks/antaresproject/acl.svg)](https://github.com/antaresproject/acl/network)
 [![GitHub stars](https://img.shields.io/github/stars/antaresproject/acl.svg)](https://github.com/antaresproject/acl/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/antaresproject/project/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/antaresproject/acl/0.9.2/LICENSE)
 
 Acl is a lightweight role-based permissions module for Antares. It is designed to manage user access to resources located in different sections of the application. It sets up permissions based on module rules. It provides  NIST Level 2 Hierarchical Role Based Access Control (RBAC). It also provides an interface for administator to manage user roles (ACL configuration).   
 
@@ -34,7 +34,7 @@ Please follow [Issue Reporting Guide](http://www.docs.antaresproject.io/php-fram
 
 ## Contribution
 
-Please follow [Contribution Guide](http://www.docs.antaresproject.io/php-framework/getting-started/contributing/) before making a pull request.
+Please follow [Contribution Guide](http://www.docs.antaresproject.io/php-framework/getting-started/contribution-guide/) before making a pull request.
 
 ## Community
 
