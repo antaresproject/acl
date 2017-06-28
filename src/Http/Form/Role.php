@@ -55,26 +55,31 @@ class Role extends FormBuilder
             $fieldset->control('input:text', 'name')
                     ->attributes(['required' => 'required'])
                     ->label(trans('antares/acl::label.role_name'))
-                    ->wrapper(['class' => 'w220']);
+                    ->wrapper(['class' => 'w220'])
+                    ->help('The name of role to manage access to resources.');
         });
         if (!$model->exists) {
-            publish('control', ['js/roles-form.js']);
+            publish('acl', ['js/roles-form.js']);
 
             $grid->fieldset(function (Fieldset $fieldset) {
 
-                $roles = app('antares.role')->managers()->pluck('name', 'id')->toArray();
+
+
+                $roles = app('antares.role')->managers()->pluck('full_name', 'id')->toArray();
 
                 $fieldset->control('checkbox', 'import')
                         ->attributes(['class' => 'role-selector', 'data-icheck' => "true"])
                         ->label(trans('antares/acl::label.import_configuration'))
-                        ->value(1);
+                        ->value(1)
+                        ->help('Import configuration from parent group.');
 
 
                 $fieldset->control('select', 'roles')
                         ->attributes(['data-selectAR' => true])
                         ->label(trans('antares/acl::label.select_parent_role'))
                         ->options($roles)
-                        ->wrapper(['class' => 'form-block roles-select-container hidden w570']);
+                        ->wrapper(['class' => 'form-block roles-select-container hidden w270'])
+                        ->labelWrapper(['class' => 'roles-select-container hidden']);
             });
         }
 
@@ -82,7 +87,8 @@ class Role extends FormBuilder
         $grid->fieldset(function (Fieldset $fieldset) use($model) {
             $fieldset->control('textarea', 'description')
                     ->attributes(['required' => 'required', 'cols' => '5', 'rows' => '5', 'class' => 'as-fs'])
-                    ->label(trans('antares/acl::label.role_description'));
+                    ->label(trans('antares/acl::label.role_description'))
+                    ->help('Description of group (role) where users will be assigned (e.g. Client level).');
 
 
             $fieldset->control('button', 'cancel')
@@ -104,7 +110,8 @@ class Role extends FormBuilder
                     ->options(function() {
                         return array_merge(config('areas.areas'), [config('antares/foundation::handles') => config('antares/foundation::application.name')]);
                     })
-                    ->wrapper(['class' => 'w180']);
+                    ->wrapper(['class' => 'w180'])
+                    ->help('Area is a configuration layer. Allows the application to be separated into different access levels with individual layouts.');
         });
 
         $rules         = $this->rules;

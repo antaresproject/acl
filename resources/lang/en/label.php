@@ -17,13 +17,10 @@
  * @copyright  (c) 2017, Antares
  * @link       http://antaresproject.io
  */
-
-
-
 return
         [
             'role_name'            => 'Group name',
-            'import_configuration' => 'Import configuration from parent group',
+            'import_configuration' => 'Import configuration',
             'select_parent_role'   => 'Select parent role',
             'role_description'     => 'Group description',
             'role_save'            => 'Save',

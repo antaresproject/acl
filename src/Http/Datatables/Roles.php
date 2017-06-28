@@ -38,7 +38,7 @@ class Roles extends DataTable
      */
     public function query()
     {
-        return Foundation::make('antares.role')->managers()->select(['id', 'full_name', 'description']);
+        return Foundation::make('antares.role')->authorized()->select(['id', 'full_name', 'description']);
     }
 
     /**

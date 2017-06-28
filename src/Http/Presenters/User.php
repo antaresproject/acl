@@ -95,16 +95,25 @@ class User extends Presenter
                     $form->hidden('id');
                     $form->fieldset('User fields', function (Fieldset $fieldset) use($model) {
                         $fieldset->control('input:text', 'email')
-                                ->label(trans('antares/foundation::label.users.email'));
+                                ->label(trans('antares/foundation::label.users.email'))
+                                ->wrapper(['class' => 'w300'])
+                                ->help('E-mail address which will be used to first login.');
 
                         $fieldset->control('input:text', 'firstname')
-                                ->label(trans('antares/foundation::label.users.firstname'));
+                                ->label(trans('antares/foundation::label.users.firstname'))
+                                ->help('Firstname field is required.')
+                                ->wrapper(['class' => 'w300']);
 
                         $fieldset->control('input:text', 'lastname')
-                                ->label(trans('antares/foundation::label.users.lastname'));
+                                ->label(trans('antares/foundation::label.users.lastname'))
+                                ->help('Lastname field is required.')
+                                ->wrapper(['class' => 'w300']);
+
 
                         $fieldset->control('input:password', 'password')
-                                ->label(trans('antares/foundation::label.users.password'));
+                                ->label(trans('antares/foundation::label.users.password'))
+                                ->wrapper(['class' => 'w300'])
+                                ->help('Password should contain min. 5 characters.');
 
                         if ($model->id != user()->id) {
                             $status = $fieldset->control('input:checkbox', 'status')
@@ -119,11 +128,9 @@ class User extends Presenter
                                 ->label(trans('antares/foundation::label.users.roles'))
                                 ->options(function () {
                                     $roles = app('antares.role');
-                                    if (config('antares/acl::allow_register_with_other_roles')) {
-                                        return $roles->managers()->pluck('name', 'id');
-                                    } else {
-                                        return user()->roles->pluck('name', 'id');
-                                    }
+                                    return (config('antares/acl::allow_register_with_other_roles')) ?
+                                            $roles->managers()->pluck('full_name', 'id') :
+                                            user()->roles->pluck('full_name', 'id');
                                 })
                                 ->value(function ($row) {
                                     $roles = [];
@@ -131,7 +138,9 @@ class User extends Presenter
                                         $roles[] = $row->id;
                                     }
                                     return $roles;
-                                });
+                                })
+                                ->wrapper(['class' => 'w300'])
+                                ->help('The user role is used to manage access to resources.');
                         $fieldset->control('button', 'button')
                                 ->attributes(['type' => 'submit', 'class' => 'btn btn--md btn--primary mdl-button mdl-js-button mdl-js-ripple-effect'])
                                 ->value(trans('antares/foundation::label.save_changes'));

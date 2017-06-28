@@ -25,7 +25,7 @@ use Antares\Acl\Adapter\ModulesAdapter;
 use Antares\Acl\Command\Synchronizer;
 
 return [
-    'allow_register_with_other_roles' => false,
+    'allow_register_with_other_roles' => true,
     'di'                              => [
         SynchronizerContract::class    => Synchronizer::class,
         ControlsAdapterContract::class => ControlsAdapter::class,
