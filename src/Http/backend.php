@@ -36,6 +36,7 @@ $router->group(['prefix' => 'acl'], function (Router $router) {
      */
     $router->match(['GET', 'POST'], 'index/users', 'UsersController@index');
     $router->resource('index/users', 'UsersController');
+    $router->match(['GET', 'POST'], 'index/users/index', 'UsersController@index');
 
 
 

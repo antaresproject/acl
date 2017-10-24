@@ -49,7 +49,10 @@ class ModulesAdapter implements ModulesAdapterContract
         ];
 
         foreach ($extensions as $extension) {
-            $named   = app('antares.extension')->getAvailableExtensions()->findByName($extension['fullname']);
+            $named = app('antares.extension')->getAvailableExtensions()->findByName($extension['fullname']);
+            if (is_null($named)) {
+                continue;
+            }
             $name    = str_replace(['component-', 'module-'], '', $extension['name']);
             $actions = $configuration->get("acl_antares/{$name}.actions");
             $data[]  = array_merge([

@@ -18,7 +18,7 @@ $(document).ready(function () {
     $('.acl-container').on('click', 'a.action-properties', function (e) {
         e.preventDefault();
         container = $('.properties-container');
-        container.LoadingOverlay('show');
+        //container.LoadingOverlay('show');
         handler = $(this);
         $.ajax({
             url: handler.attr('href'),
@@ -27,19 +27,19 @@ $(document).ready(function () {
                 $('input:checkbox').iCheck({
                     checkboxClass: 'icheckbox_billevo'
                 });
-                container.LoadingOverlay('hide');
+                //container.LoadingOverlay('hide');
 
 
             },
             error: function (error) {
-                container.LoadingOverlay('hide');
+                //container.LoadingOverlay('hide');
             }
         });
     });
     $('div.panel-group').on('submit', 'form.resource-actions', function (e) {
         e.preventDefault();
         handler = $(this);
-        handler.LoadingOverlay('show');
+        //handler.LoadingOverlay('show');
         var message = null;
         var hasError = false;
         $.ajax({
@@ -47,11 +47,11 @@ $(document).ready(function () {
             data: handler.serialize(),
             type: 'POST',
             success: function (response) {
-                handler.LoadingOverlay('hide');
+                //handler.LoadingOverlay('hide');
                 message = response.message;
             },
             error: function (error) {
-                handler.LoadingOverlay('hide');
+                //handler.LoadingOverlay('hide');
                 message = error;
                 hasError = true;
             }
@@ -78,7 +78,7 @@ $(document).ready(function () {
     $('div.properties-container').on('submit', 'form.action-forms', function (e) {
         e.preventDefault();
         handler = $(this);
-        handler.LoadingOverlay('show');
+        //handler.LoadingOverlay('show');
         var message = null;
         var hasError = false;
         $.ajax({
@@ -86,11 +86,11 @@ $(document).ready(function () {
             data: {_token: handler.find('input[name=_token]:first').val(), elements: handler.serialize()},
             type: 'POST',
             success: function (response) {
-                handler.LoadingOverlay('hide');
+                //handler.LoadingOverlay('hide');
                 message = response.message;
             },
             error: function (error) {
-                handler.LoadingOverlay('hide');
+                //handler.LoadingOverlay('hide');
                 message = error.message;
                 hasError = true;
             }

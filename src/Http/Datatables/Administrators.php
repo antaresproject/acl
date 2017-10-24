@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Access Control
- * @version    0.9.0
+ * @version    0.9.2
  * @author     Antares Team
  * @license    BSD License (3-clause)
  * @copyright  (c) 2017, Antares
@@ -145,8 +145,7 @@ class Administrators extends DataTable
         if (!app('antares.acl')->make('antares/acl')->can('roles-list')) {
             $this->filters = [];
         }
-        return $this
-                        ->setName('Administrators List')
+        return $this->setName('Administrators List')
                         ->addColumn(['data' => 'id', 'name' => 'id', 'title' => trans('antares/foundation::label.users.id')])
                         ->addColumn(['data' => 'firstname', 'name' => 'firstname', 'title' => trans('antares/foundation::label.users.firstname'), 'className' => 'bolded'])
                         ->addColumn(['data' => 'lastname', 'name' => 'lastname', 'title' => trans('antares/foundation::label.users.lastname'), 'className' => 'bolded'])
@@ -155,7 +154,7 @@ class Administrators extends DataTable
                         ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => trans('antares/foundation::label.users.created_at')])
                         ->addColumn(['data' => 'status', 'name' => 'status', 'title' => trans('antares/foundation::label.users.status')])
                         ->addAction(['name' => 'edit', 'title' => '', 'class' => 'mass-actions dt-actions', 'orderable' => false, 'searchable' => false])
-                        ->setDeferedData()
+                        ->ajax(handles('antares::acl/index/users/index'))
                         ->addGroupSelect($this->statuses(), 6, 'all');
     }
 
