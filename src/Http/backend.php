@@ -43,6 +43,6 @@ $router->group(['prefix' => 'acl'], function (Router $router) {
     /**
      * form
      */
-    $router->match(['GET', 'HEAD', 'DELETE'], 'properties/{roleId}/id/{formId}', 'PropertiesController@properties');
-    $router->post('update/{roleId}/id/{formId}', ['as' => 'control.properties.update', 'uses' => 'PropertiesController@update']);
+    //$router->match(['GET', 'HEAD', 'DELETE'], 'properties/{roleId}/id/{formId}', 'PropertiesController@properties');
+    //$router->post('update/{roleId}/id/{formId}', ['as' => 'control.properties.update', 'uses' => 'PropertiesController@update']);
 });
