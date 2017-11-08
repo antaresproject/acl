@@ -155,7 +155,12 @@ class Administrators extends DataTable
                         ->addColumn(['data' => 'status', 'name' => 'status', 'title' => trans('antares/foundation::label.users.status')])
                         ->addAction(['name' => 'edit', 'title' => '', 'class' => 'mass-actions dt-actions', 'orderable' => false, 'searchable' => false])
                         ->ajax(handles('antares::acl/index/users/index'))
-                        ->addGroupSelect($this->statuses(), 6, 'all');
+                        ->addGroupSelect($this->statuses(), 6, 'all')
+                        ->parameters([
+                            'aoColumnDefs' => [
+                                ['width' => '5%', 'targets' => 0]
+                            ]
+                        ])->zeroDataLink('Create new user', handles('antares::acl/index/users/create'));
     }
 
     /**

@@ -69,7 +69,15 @@ class Roles extends DataTable
                         ->addColumn(['data' => 'full_name', 'name' => 'full_name', 'title' => 'Group name', 'className' => 'bolded'])
                         ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Description'])
                         ->addAction(['name' => 'edit', 'title' => '', 'class' => 'mass-actions dt-actions', 'orderable' => false, 'searchable' => false])
-                        ->setDeferedData();
+                        ->setDeferedData()
+                        ->zeroDataLink('Create new group', handles('antares::acl/index/roles/create'))
+                        ->parameters([
+                            'aoColumnDefs' => [
+                                ['width' => '5%', 'targets' => 0],
+                                ['width' => '15%', 'targets' => 1],
+                                ['width' => '15%', 'targets' => 3],
+                            ]
+        ]);
     }
 
     /**

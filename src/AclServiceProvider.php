@@ -99,7 +99,7 @@ class AclServiceProvider extends ModuleServiceProvider
         });
         $this->attachMenu([GroupsBreadcrumbMenu::class, UsersBreadcrumbMenu::class]);
         $view->composer('antares/foundation::settings.*', ControlPane::class);
-        $view->composer('antares/acl::*', StaffPane::class);
+        $view->composer(['antares/acl::users.index', 'antares/acl::roles.index'], StaffPane::class);
     }
 
     /**

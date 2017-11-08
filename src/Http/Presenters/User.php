@@ -94,25 +94,22 @@ class User extends Presenter
                     $form->resource($this, 'antares::acl/index/users', $model);
                     $form->hidden('id');
                     $form->fieldset('User fields', function (Fieldset $fieldset) use($model) {
+                        $fieldset->legend('User fields');
                         $fieldset->control('input:text', 'email')
                                 ->label(trans('antares/foundation::label.users.email'))
-                                ->wrapper(['class' => 'w300'])
                                 ->help('E-mail address which will be used to first login.');
 
                         $fieldset->control('input:text', 'firstname')
                                 ->label(trans('antares/foundation::label.users.firstname'))
-                                ->help('Firstname field is required.')
-                                ->wrapper(['class' => 'w300']);
+                                ->help('Firstname field is required.');
 
                         $fieldset->control('input:text', 'lastname')
                                 ->label(trans('antares/foundation::label.users.lastname'))
-                                ->help('Lastname field is required.')
-                                ->wrapper(['class' => 'w300']);
+                                ->help('Lastname field is required.');
 
 
                         $fieldset->control('input:password', 'password')
                                 ->label(trans('antares/foundation::label.users.password'))
-                                ->wrapper(['class' => 'w300'])
                                 ->help('Password should contain min. 5 characters.');
 
                         if ($model->id != user()->id) {
@@ -139,7 +136,6 @@ class User extends Presenter
                                     }
                                     return $roles;
                                 })
-                                ->wrapper(['class' => 'w300'])
                                 ->help('The user role is used to manage access to resources.');
                         $fieldset->control('button', 'button')
                                 ->attributes(['type' => 'submit', 'class' => 'btn btn--md btn--primary mdl-button mdl-js-button mdl-js-ripple-effect'])

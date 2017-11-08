@@ -61,7 +61,7 @@ class Breadcrumb
         Breadcrumbs::register('edit-role', function($breadcrumbs) use($model) {
             $breadcrumbs->parent('roles-list');
             $exists = is_null($model) ? false : $model->exists;
-            $name   = ($exists) ? 'Edit Group ' . $model->full_name : 'Add Group';
+            $name   = ($exists) ? 'Edit: #' . $model->id . ', ' . $model->full_name : 'Add Group';
             $breadcrumbs->push($name, '#');
         });
         view()->share('breadcrumbs', Breadcrumbs::render('edit-role'));
@@ -102,7 +102,7 @@ class Breadcrumb
     public function onUserCreateOrEdit(Model $model)
     {
         $this->onUsersList();
-        $name = $model->exists ? 'User Edit ' . $model->fullname : 'User Add';
+        $name = $model->exists ? 'EditL ' . $model->id . ', ' . $model->fullname : 'User Add';
         Breadcrumbs::register('user', function($breadcrumbs) use($name) {
             $breadcrumbs->parent('users-list');
             $breadcrumbs->push($name, '#');

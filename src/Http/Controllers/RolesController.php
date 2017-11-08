@@ -130,6 +130,9 @@ class RolesController extends AdminController implements RolesContract
      */
     public function store()
     {
+        if (request()->has('columns')) {
+            return $this->index();
+        }
         return $this->processor->store($this, Input::all());
     }
 

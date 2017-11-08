@@ -55,7 +55,6 @@ class Role extends FormBuilder
             $fieldset->control('input:text', 'name')
                     ->attributes(['required' => 'required'])
                     ->label(trans('antares/acl::label.role_name'))
-                    ->wrapper(['class' => 'w220'])
                     ->help('The name of role to manage access to resources.');
         });
         if (!$model->exists) {
@@ -78,7 +77,7 @@ class Role extends FormBuilder
                         ->attributes(['data-selectAR' => true])
                         ->label(trans('antares/acl::label.select_parent_role'))
                         ->options($roles)
-                        ->wrapper(['class' => 'form-block roles-select-container hidden w270'])
+                        ->wrapper(['class' => 'form-block roles-select-container hidden'])
                         ->labelWrapper(['class' => 'roles-select-container hidden']);
             });
         }
@@ -110,7 +109,6 @@ class Role extends FormBuilder
                     ->options(function() {
                         return array_merge(config('areas.areas'), [config('antares/foundation::handles') => config('antares/foundation::application.name')]);
                     })
-                    ->wrapper(['class' => 'w180'])
                     ->help('Area is a configuration layer. Allows the application to be separated into different access levels with individual layouts.');
         });
 
