@@ -1,16 +1,16 @@
 {% extends  "antares/foundation::layouts.antares.main"   %}   
 {% block app_content %}
-    <div class="app-content page-settings">    
+    <div class="app-content page-forms page-forms--hor page-single-form acl-page">    
     {% endblock %}     
-    {% block main_content %}
-        {% set panes=app('antares.widget').make('pane.left') %}    
+    {% block main_content %}        
         <section class="main-content" data-preload>
             {% include 'antares/foundation::components.messages'  %}                                             
-            <div class="grid-container grid-container--2col grid-container--no-padd">
+            <div class="grid-container grid-container--1col grid-container--no-padd grid-container--footer">
                 {% include 'antares/foundation::layouts.antares.partials._left_panel' with {panes: panes} %}
                 <div class="grid-col grid-col--container">               
                     {% block content %}
                         {% include 'antares/acl::partial._acl_template' %}
+                        
                         <section class="acl-container">
                             {{ app('form').open({'url':handles('antares::acl/acl'), 'method':'POST','class':'resource-actions form--hor'})|raw }}                    
 
@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                             <div class="acl-container__body">
-                                <div id="acl" class="acl" data-url="{{ handles('antares::acl/tree/'~id) }}">
+                                <div id="acl" class="acl" data-url-acl="{{ handles('antares::acl/tree/'~id) }}">
                                     <ul>
                                         <tree-item {{ ':model="model" v-for="model in tree.children"' }}></tree-item>
                                     </ul>
@@ -46,5 +46,5 @@
                     {% endblock %}
                 </div>     
             </div>
-        </section>            
+        </section>                    
     {% endblock %} 

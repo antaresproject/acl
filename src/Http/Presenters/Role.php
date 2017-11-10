@@ -120,8 +120,10 @@ class Role extends Presenter
     {
         $this->breadcrumb->onAcl($eloquent);
         app('antares.asset')->container('antares/foundation::application')->add('webpack_acl', '//10.10.10.35:71/js/view_acl.js', ['forms_basic']);
-        $id     = $eloquent->id;
-        $groups = Eloquent::query()->newQuery()->get()->all();
+        $id = $eloquent->id;
+
+        $groups = Eloquent::authorized()->get()->all();
+
 
         return view('antares/acl::roles.acl', compact('groups', 'id'));
     }

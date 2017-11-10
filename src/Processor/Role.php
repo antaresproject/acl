@@ -356,7 +356,7 @@ class Role extends Processor
             $item['children']     = $children;
             $return['children'][] = $item;
         }
-        return new JsonResponse(['tree' => $return]);
+        return new JsonResponse($return);
     }
 
 }
