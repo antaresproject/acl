@@ -145,6 +145,7 @@ class Administrators extends DataTable
         if (!app('antares.acl')->make('antares/acl')->can('roles-list')) {
             $this->filters = [];
         }
+        $html = app('html');
         return $this->setName('Administrators List')
                         ->addColumn(['data' => 'id', 'name' => 'id', 'title' => trans('antares/foundation::label.users.id')])
                         ->addColumn(['data' => 'firstname', 'name' => 'firstname', 'title' => trans('antares/foundation::label.users.firstname'), 'className' => 'bolded'])
@@ -158,9 +159,16 @@ class Administrators extends DataTable
                         ->addGroupSelect($this->statuses(), 6, 'all')
                         ->parameters([
                             'aoColumnDefs' => [
-                                ['width' => '5%', 'targets' => 0]
+                                ['width' => '5%', 'targets' => 0],
+                                ['width' => '15%', 'targets' => 4]
                             ]
-                        ])->zeroDataLink('Create new user', handles('antares::acl/index/users/create'));
+                        ])
+                        ->addMassAction('activate_deactivate', $html->link(handles('antares/acl::users/status'), $html->raw('<i class="zmdi zmdi-refresh"></i><span>' . trans('Activate / Deactivate') . '</span>'), [
+                                    'class'            => "triggerable confirm mass-action",
+                                    'data-title'       => trans("Are you sure?"),
+                                    'data-description' => trans('Change status of selected users'),
+                        ]))
+                        ->zeroDataLink('Create new user', handles('antares::acl/index/users/create'));
     }
 
     /**
@@ -233,7 +241,7 @@ class Administrators extends DataTable
             if (empty($this->tableActions)) {
                 return '';
             }
-            $section = $html->create('div', $html->create('section', $html->create('ul', $html->raw(implode('', $this->tableActions->toArray())))), ['class' => 'mass-actions-menu'])->get();
+            $section = $html->create('div', $html->create('section', $html->create('ul', $html->raw(implode('', $this->tableActions->toArray())))), ['class' => 'mass-actions-menu', 'data-id' => $row->id])->get();
             return '<i class="zmdi zmdi-more"></i>' . $html->raw($section)->get();
         };
     }

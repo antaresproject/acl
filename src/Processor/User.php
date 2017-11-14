@@ -114,9 +114,8 @@ class User extends Processor
      */
     public function store(UserCreatorListener $listener, array $input)
     {
-
         $user           = Foundation::make('antares.user');
-        $user->status   = Eloquent::UNVERIFIED;
+        $user->status   = array_get($input, 'status', Eloquent::UNVERIFIED);
         $user->password = $input['password'];
 
         $form = $this->presenter->form($user);
@@ -223,7 +222,6 @@ class User extends Processor
         if ($user->exists && !isset($input['status'])) {
             $user->status = 0;
         }
-
         $this->fireEvent($beforeEvent, [$user]);
         $this->fireEvent('saving', [$user]);
 

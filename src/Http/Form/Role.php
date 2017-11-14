@@ -45,10 +45,12 @@ class Role extends FormBuilder
      */
     public function __construct(Model $model)
     {
-        $grid = app(Grid::class);
+        $grid   = app(Grid::class);
         $grid->name('role');
         $grid->resourced('antares::acl/index/roles', $model);
         $grid->hidden('id');
+        $groups = $model->newQuery()->authorized()->get()->all();
+        $grid->layout('antares/acl::partial._form', ['groups' => $groups, 'id' => $model->id]);
 
         $grid->fieldset(function (Fieldset $fieldset) {
             $fieldset->legend(trans('antares/acl::messages.group_details'));
@@ -100,17 +102,6 @@ class Role extends FormBuilder
                     ->value(trans('antares/foundation::label.save_changes'));
         });
 
-        $grid->fieldset(function (Fieldset $fieldset) use($model) {
-            $fieldset->legend(trans('antares/acl::messages.group_area'));
-
-            $fieldset->control('select', 'area')
-                    ->attributes(['data-selectAR' => true])
-                    ->label(trans('antares/acl::label.select_level'))
-                    ->options(function() {
-                        return array_merge(config('areas.areas'), [config('antares/foundation::handles') => config('antares/foundation::application.name')]);
-                    })
-                    ->help('Area is a configuration layer. Allows the application to be separated into different access levels with individual layouts.');
-        });
 
         $rules         = $this->rules;
         $rules['name'] = array_merge($rules['name'], ['unique:tbl_roles,name' . ((!$model->exists) ? '' : ',' . $model->id)]);

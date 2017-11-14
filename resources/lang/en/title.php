@@ -20,25 +20,25 @@
 return
 
         array(
-            'roles'        =>
+            'roles'       =>
             array(
                 'list'   => 'List of Roles',
                 'create' => 'Create New Role',
                 'update' => 'Update A Role',
             ),
-            'users'        =>
+            'users'       =>
             array(
                 'list'   => 'title.users.list',
                 'create' => 'title.users.create',
                 'update' => 'title.users.update',
             ),
-            'themes'       =>
+            'themes'      =>
             array(
                 'list' => 'Frontend themes list',
             ),
-            'edit_details' => 'Edit details',
-            'acl_rules'    => 'Acl rules',
-            'breadcrumbs'  => [
+            'edit'        => 'Edit',
+            'acl_rules'   => 'Acl rules',
+            'breadcrumbs' => [
                 'groups' => 'Groups',
                 'users'  => 'Users'
             ]

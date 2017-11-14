@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Access Control
- * @version    0.9.0
+ * @version    0.9.2
  * @author     Antares Team
  * @license    BSD License (3-clause)
  * @copyright  (c) 2017, Antares
@@ -22,6 +22,7 @@ namespace Antares\Acl\Processor;
 
 use Antares\Acl\Http\Presenters\Role as RolePresenter;
 use Antares\Contracts\Foundation\Foundation;
+use Antares\Contracts\Authorization\Factory;
 use Antares\Acl\Contracts\ModulesAdapter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
@@ -51,16 +52,25 @@ class Role extends Processor
     protected $collector;
 
     /**
+     * ACL instance.
+     *
+     * @var \Antares\Contracts\Authorization\Factory
+     */
+    protected $acl;
+
+    /**
      * Setup a new processor instance.
      *
      * @param  \Antares\Acl\Http\Presenters\Role  $presenter
      * @param  \Antares\Contracts\Foundation\Foundation  $foundation
+     * @param  \Antares\Contracts\Authorization\Factory  $acl
      */
-    public function __construct(RolePresenter $presenter, Foundation $foundation)
+    public function __construct(RolePresenter $presenter, Foundation $foundation, Factory $acl)
     {
         $this->presenter  = $presenter;
         $this->foundation = $foundation;
         $this->model      = $foundation->make('antares.role');
+        $this->acl        = $acl;
     }
 
     /**
@@ -147,11 +157,9 @@ class Role extends Processor
         if (!$form->isValid()) {
             return $listener->updateValidationFailed($form->getMessageBag(), $id);
         }
-
         try {
             $this->saving($role, $input, 'update');
         } catch (Exception $e) {
-
             Log::warning($e);
             return $listener->updateFailed(['error' => $e->getMessage()]);
         }
@@ -198,12 +206,11 @@ class Role extends Processor
     {
         $beforeEvent = ($type === 'create' ? 'creating' : 'updating');
         $afterEvent  = ($type === 'create' ? 'created' : 'updated');
-
-        $name = $input['name'];
+        $name        = $input['name'];
         $role->fill([
             'name'        => snake_case($name, '-'),
             'full_name'   => $name,
-            'area'        => array_get($input, 'area'),
+            'area'        => config('areas.default'),
             'description' => $input['description']
         ]);
         if (!$role->exists && isset($input['roles'])) {
@@ -211,10 +218,37 @@ class Role extends Processor
         }
         $this->fireEvent($beforeEvent, [$role]);
         $this->fireEvent('saving', [$role]);
+
         DB::transaction(function() use($role, $input) {
+            if (!is_null(input('acl'))) {
+                $all = $this->acl->all();
+                if (empty($all)) {
+                    throw new Exception('Acl verification failed.');
+                }
+                $roleId = key(input('acl'));
+
+                $role = $role->newQuery()->where('id', $roleId)->firstOrFail();
+
+                $roleName = $role->name;
+                $allowed  = array_keys(input('acl')[$roleId]);
+
+                foreach ($all as $component => $details) {
+                    $acl     = $this->acl->get($component);
+                    $actions = $details->actions->get();
+                    foreach ($actions as $actionId => $name) {
+                        $allow = in_array($actionId, $allowed);
+                        $acl->allow($roleName, $name, $allow);
+                    }
+                    $acl->save();
+                }
+            }
+
             $role->save();
             $this->import($input, $role);
         });
+
+
+
         $this->fireEvent($afterEvent, [$role]);
         $this->fireEvent('saved', [$role]);
 
@@ -254,18 +288,6 @@ class Role extends Processor
     protected function fireEvent($type, array $parameters = [])
     {
         Event::fire("antares.control.{$type}: roles", $parameters);
-    }
-
-    /**
-     * Acl rules form
-     *
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function acl($id)
-    {
-        $eloquent = $this->model->findOrFail($id);
-        return $this->presenter->acl($eloquent);
     }
 
     /**
@@ -356,7 +378,7 @@ class Role extends Processor
             $item['children']     = $children;
             $return['children'][] = $item;
         }
-        return new JsonResponse(['tree' => $return]);
+        return new JsonResponse($return);
     }
 
 }

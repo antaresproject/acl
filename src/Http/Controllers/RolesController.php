@@ -23,6 +23,7 @@ namespace Antares\Acl\Http\Controllers;
 use Antares\Foundation\Http\Controllers\AdminController;
 use Antares\Acl\Contracts\Roles as RolesContract;
 use Antares\Acl\Processor\Role as RoleProcessor;
+use Antares\Acl\Contracts\Command\Synchronizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Input;
 use Antares\Model\Role;
@@ -31,13 +32,22 @@ class RolesController extends AdminController implements RolesContract
 {
 
     /**
+     * The synchronizer implementation.
+     *
+     * @var \Antares\Acl\Contracts\Command\Synchronizer
+     */
+    protected $synchronizer;
+
+    /**
      * Setup a new controller.
      *
-     * @param  \Antares\Acl\Processor\Role   $processor
+     * @param  \Antares\Acl\Processor\Role  $processor
+     * @param  \Antares\Acl\Contracts\Command\Synchronizer  $synchronizer
      */
-    public function __construct(RoleProcessor $processor)
+    public function __construct(RoleProcessor $processor, Synchronizer $synchronizer)
     {
-        $this->processor = $processor;
+        $this->processor    = $processor;
+        $this->synchronizer = $synchronizer;
         parent::__construct();
     }
 
@@ -102,17 +112,6 @@ class RolesController extends AdminController implements RolesContract
     }
 
     /**
-     * Edit the group ACL
-     *
-     * @param  mixed  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function acl($id)
-    {
-        return $this->processor->acl($id);
-    }
-
-    /**
      * Acl tree as JsonResponse
      *
      * @param mixed $id
@@ -145,7 +144,6 @@ class RolesController extends AdminController implements RolesContract
      */
     public function update($id)
     {
-
         return $this->processor->update($this, Input::all(), $id);
     }
 
@@ -270,6 +268,9 @@ class RolesController extends AdminController implements RolesContract
      */
     public function updateSucceed()
     {
+        $this->synchronizer->handle();
+        app('antares.memory')->make('component.default')->update();
+
         $message = trans('antares/acl::response.roles.updated');
         return $this->redirectWithMessage(handles('antares::acl/index/roles'), $message);
     }

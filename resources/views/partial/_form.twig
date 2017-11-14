@@ -1,0 +1,82 @@
+{{ Form.open(form|merge({'class':'form--hor'}))|raw }}
+{% if(token) %}
+    {{ Form.token() }}
+{% endif %}
+{% for hidden in hiddens %}
+    {{ hidden|raw }}
+{% endfor %}
+
+{% for fieldset in fieldsets %}
+    {% if fieldset.hasLayout() %}
+        {{ fieldset.render()|raw }}
+    {% else %}    
+        <fieldset name="inputs">
+            {% if fieldset.legend|length>0 %}
+                <legend>{{ fieldset.legend|raw }}</legend>
+            {% endif %}
+            {% for control in fieldset.controls() %}
+                <div class="form-block {{control.getBlock('class')}}" role="{{control.getBlock('role')}}">
+                    {% include 'antares/foundation::layouts.antares.partials.form.horizontal._'~control.type|replace({':': '_'}) with {control: control} %}
+                    {% if control.inlineHelp|length>1 or control.help|length>1 %}
+                        {% include 'antares/foundation::layouts.antares.partials.form.horizontal._description' %}             
+                    {% endif %}
+                </div>                        
+            {%endfor %}
+        </fieldset>
+    {% endif %}
+{%endfor %}
+{% if id %}
+    <fieldset name="inputs">
+        <legend>Acl rules</legend>
+        <div class="acl-container__header">                                
+            <div id="load-configuration" >
+                <select name="group" data-url="{{ handles('antares::acl/acl') }}" data-flag-select--search  data-title="{{ trans('antares/acl::messages.are_you_sure') }}" data-description="{{ trans('antares/acl::messages.changing_group') }}">
+                    {% for group in groups %}          
+                        <option {{  id==group.id?'selected="selected"':'' }}value="{{ group.id }}" >{{ group.full_name|capitalize }}</option>
+                    {% endfor %}      
+                </select>
+            </div>
+        </div>
+        <div class="acl-container__body">
+            <div id="acl" class="acl" data-url-acl="{{ handles('antares::acl/tree/'~id) }}">
+                <ul>
+                    <tree-item {{ ':model="model" v-for="model in tree.children"' }}></tree-item>
+                </ul>
+            </div>
+        </div>
+    </fieldset>            
+{% endif %}
+{% block buttons %}
+    {% set links = [] %}
+    {% if buttons is not empty %}
+        <div class="app-content__footer">
+            <div class="btn-group">
+                {% for button in buttons %}  
+                    {% if button.attributes.attributes.type not in ['submit','button'] %}
+                        {% set links = links|merge([button]) %}
+                    {% else %}
+                        {% if not button.hasWrapper() %}
+                            {{ button.getField(row, button, [])|raw }}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for link in links %}  
+                    {% if not link.hasWrapper() %}
+                        {{ link.getField(row, link, [])|raw }}
+                    {% endif %}
+                {% endfor %}
+                {% for test in tests %}
+                    {{ test|raw }}
+                {% endfor %} 
+            </div>
+        </div>
+        {% for button in buttons %}  
+            <div class="form-block">
+                {% if button.hasWrapper() is sameas(true) %}            
+                    {{ button.getField(row, button, [])|raw }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+{{ Form.close()|raw }}  

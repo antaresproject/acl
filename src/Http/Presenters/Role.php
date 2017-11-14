@@ -104,6 +104,7 @@ class Role extends Presenter
      */
     public function edit(Eloquent $eloquent, array $available = array())
     {
+        app('antares.asset')->container('antares/foundation::application')->add('webpack_acl', '//10.10.10.35:71/js/view_acl.js', ['forms_basic']);
         publish('acl', ['js/control.js']);
         $id         = $eloquent->id;
         $instances  = $this->container->make('antares.acl')->all();
@@ -113,17 +114,8 @@ class Role extends Presenter
         foreach ($collection as $item) {
             array_push($available, $item['aid']);
         }
-        return compact('eloquent', 'form', 'modules', 'instances', 'available', 'id');
-    }
 
-    public function acl(Eloquent $eloquent)
-    {
-        $this->breadcrumb->onAcl($eloquent);
-        app('antares.asset')->container('antares/foundation::application')->add('webpack_acl', '//10.10.10.35:71/js/view_acl.js', ['forms_basic']);
-        $id     = $eloquent->id;
-        $groups = Eloquent::query()->newQuery()->get()->all();
-
-        return view('antares/acl::roles.acl', compact('groups', 'id'));
+        return compact('eloquent', 'form', 'modules', 'instances', 'available', 'id', 'groups');
     }
 
 }

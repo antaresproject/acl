@@ -1,4 +1,21 @@
-{% extends 'antares/foundation::layouts.antares.index' %}
-{% block content %}
-    {{ form|raw }}
-{% endblock %}
+{% extends  "antares/foundation::layouts.antares.main"   %}   
+{% block app_content %}
+    <div class="app-content page-forms page-forms--hor page-single-form acl-page">    
+    {% endblock %}     
+    {% block main_content %}        
+        <section class="main-content" data-preload>
+            {% include 'antares/foundation::components.messages'  %}                                             
+            <div class="grid-container grid-container--1col grid-container--no-padd grid-container--footer">
+                {% include 'antares/foundation::layouts.antares.partials._left_panel' with {panes: panes} %}
+                <div class="grid-col grid-col--container">               
+                    {% block content %}                        
+                        <section class="generals-form gen-settings--full acl-container">
+                            {% include 'antares/acl::partial._acl_template' %}                       
+                            {{ form|raw }}
+                        </section>                        
+                    {% endblock %}
+                </div>     
+            </div>
+        </section>                    
+    {% endblock %} 
+
