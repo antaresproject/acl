@@ -9,7 +9,10 @@
             <div class="grid-container grid-container--2col grid-container--no-padd">
                 {% include 'antares/foundation::layouts.antares.partials._left_panel' with {panes: panes} %}
                 <div class="grid-col grid-col--container nopadding">               
-                    {% block content %}
+                    <div class="menu-mobile-settings--box">
+                        <select class="menu-mobile-settings" data-select2--class="menu-aside-settings--blue" data-selectAR--search="true" name="select"></select>
+                    </div>
+                    {% block content %}                        
                         {{ dataTable.scripts()|raw }}   
                         {{ dataTable.tableDeferred()|raw }}
                     {% endblock %}

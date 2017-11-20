@@ -115,7 +115,7 @@ class Role extends Presenter
             array_push($available, $item['aid']);
         }
 
-        return view('antares/acl::roles.acl', compact('groups', 'id'));
+        return compact('groups', 'id', 'form');
     }
 
 }
