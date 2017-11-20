@@ -146,21 +146,23 @@ class Administrators extends DataTable
             $this->filters = [];
         }
         $html = app('html');
+
         return $this->setName('Administrators List')
                         ->addColumn(['data' => 'id', 'name' => 'id', 'title' => trans('antares/foundation::label.users.id')])
-                        ->addColumn(['data' => 'firstname', 'name' => 'firstname', 'title' => trans('antares/foundation::label.users.firstname'), 'className' => 'bolded'])
-                        ->addColumn(['data' => 'lastname', 'name' => 'lastname', 'title' => trans('antares/foundation::label.users.lastname'), 'className' => 'bolded'])
-                        ->addColumn(['data' => 'email', 'name' => 'email', 'title' => trans('antares/foundation::label.users.email'), 'className' => 'bolded'])
-                        ->addColumn(['data' => 'role', 'name' => 'role', 'title' => trans('antares/foundation::label.users.role')])
-                        ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => trans('antares/foundation::label.users.created_at')])
-                        ->addColumn(['data' => 'status', 'name' => 'status', 'title' => trans('antares/foundation::label.users.status')])
+                        ->addColumn(['data' => 'firstname', 'name' => 'firstname', 'title' => trans('antares/foundation::label.users.firstname'), 'className' => 'bolded tabletV tabletH laptop desktop'])
+                        ->addColumn(['data' => 'lastname', 'name' => 'lastname', 'title' => trans('antares/foundation::label.users.lastname'), 'className' => 'bolded tabletV tabletH laptop desktop'])
+                        ->addColumn(['data' => 'email', 'name' => 'email', 'title' => trans('antares/foundation::label.users.email')])
+                        ->addColumn(['data' => 'role', 'name' => 'role', 'title' => trans('antares/foundation::label.users.role'), 'className' => 'bolded tabletV tabletH laptop desktop'])
+                        ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => trans('antares/foundation::label.users.created_at'), 'className' => 'bolded tabletV tabletH laptop desktop'])
+                        ->addColumn(['data' => 'status', 'name' => 'status', 'title' => trans('antares/foundation::label.users.status'), 'className' => 'bolded tabletV tabletH laptop desktop'])
                         ->addAction(['name' => 'edit', 'title' => '', 'class' => 'mass-actions dt-actions', 'orderable' => false, 'searchable' => false])
                         ->ajax(handles('antares::acl/index/users/index'))
                         ->addGroupSelect($this->statuses(), 6, 'all')
                         ->parameters([
                             'aoColumnDefs' => [
                                 ['width' => '5%', 'targets' => 0],
-                                ['width' => '15%', 'targets' => 4]
+                                ['width' => '15%', 'targets' => 4],
+                                ['width' => '1%', 'targets' => 7]
                             ]
                         ])
                         ->addMassAction('activate_deactivate', $html->link(handles('antares/acl::users/status'), $html->raw('<i class="zmdi zmdi-refresh"></i><span>' . trans('Activate / Deactivate') . '</span>'), [
