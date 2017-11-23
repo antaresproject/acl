@@ -46,7 +46,7 @@ class GroupsFilter extends SelectFilter implements DataTableScopeContract
      *
      * @var String
      */
-    protected $pattern = 'Group: %value';
+    protected $pattern = '<span class="filter-label">Group:</span> %value';
 
     /**
      * filter instance dataprovider
@@ -70,7 +70,7 @@ class GroupsFilter extends SelectFilter implements DataTableScopeContract
             return $builder;
         }
         $builder->whereHas('roles', function ($query) use($values) {
-            $query->whereIn('tbl_roles.id', $values);
+            $query->whereIn('tbl_roles.id', (array) $values);
         });
     }
 

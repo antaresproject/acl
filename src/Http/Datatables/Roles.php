@@ -102,7 +102,7 @@ class Roles extends DataTable
             $btns = [];
             $html = app('html');
             if ($canEditRole) {
-                array_push($btns, $html->create('li', $html->link(handles("antares::acl/index/roles/{$row->id}/edit"), trans('antares/acl::title.edit'), ['data-icon' => 'edit'])));
+                array_push($btns, $html->create('li', $html->link(handles("antares::acl/index/roles/{$row->id}/edit"), trans('Edit'), ['data-icon' => 'edit'])));
             }
             if ($row->id !== $roleId and $canDeleteRole) {
 

@@ -112,6 +112,10 @@ class User extends Presenter
                                 ->label(trans('antares/foundation::label.users.password'))
                                 ->help('Password should contain min. 5 characters.');
 
+                        $fieldset->control('input:password', 'confirm_password')
+                                ->label(trans('antares/foundation::label.users.confirm_password'))
+                                ->help('Password should same as value in password field.');
+
                         if ($model->id != user()->id) {
                             $status = $fieldset->control('input:checkbox', 'status')
                                     ->label(trans('antares/foundation::label.users.active'))
@@ -147,10 +151,12 @@ class User extends Presenter
                                 });
                     });
                     $form->rules([
-                        'email'     => ['required', 'email', 'unique:tbl_users,email' . ((!$model->exists) ? '' : ',' . $model->id)],
-                        'firstname' => ['required'],
-                        'lastname'  => ['required'],
-                        'roles'     => ['required'],
+                        'email'            => ['required', 'email', 'unique:tbl_users,email' . ((!$model->exists) ? '' : ',' . $model->id)],
+                        'firstname'        => ['required'],
+                        'lastname'         => ['required'],
+                        'roles'            => ['required'],
+                        'password'         => ['required', 'min:5'],
+                        'confirm_password' => ['required', 'min:5', 'same:password'],
                     ]);
                 });
     }
