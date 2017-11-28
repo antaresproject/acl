@@ -75,7 +75,7 @@ class Roles extends DataTable
                             'aoColumnDefs' => [
                                 ['width' => '5%', 'targets' => 0],
                                 ['width' => '15%', 'targets' => 1],
-                                ['width' => '15%', 'targets' => 3],
+                                ['width' => '1%', 'targets' => 3],
                             ]
         ]);
     }
