@@ -104,7 +104,7 @@ class Role extends Presenter
      */
     public function edit(Eloquent $eloquent, array $available = array())
     {
-        app('antares.asset')->container('antares/foundation::application')->add('webpack_acl', '//10.10.10.35:71/js/view_acl.js', ['forms_basic']);
+        app('antares.asset')->container('antares/foundation::application')->add('webpack_acl', '/_dist/js/view_acl.js', ['forms_basic']);
         publish('acl', ['js/control.js']);
         $id         = $eloquent->id;
         $instances  = $this->container->make('antares.acl')->all();
