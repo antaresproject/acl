@@ -1,7 +1,7 @@
 {% set menu=app('antares.widget').make('menu.control.pane') %}
 <ul class="menu-aside">
     {% for item in menu %}
-        <li class="{{ (item.isChildActive() or item.active) ? 'is-active' : '' }} {{ (item.childs|length>0 and item.isActive())?'has-submenu submenu-open':''  }}">
+        <li class="{{ item.isChildActive() ? 'is-active' : '' }} {{ (item.childs|length>0 and item.isActive())?'has-submenu submenu-open':''  }}">
             <a href="{{ item.link }}" class="mdl-js-button mdl-js-ripple-effect">
                 <i class="zmdi {{ item.icon }}"></i>
                 <span>
